@@ -3,11 +3,7 @@ import './App.css';
 
 function BoxMaker(props){
   return(
-     <div>
-       {props.boxes.map(box => (
-         <span key={Date.now()}>{box}</span>
-       ) )}
-     </div>
+    <span>{props.count}</span>
   )
 }
 
@@ -23,26 +19,28 @@ class App extends Component {
   }
 
   addBox(){
-    // console.log('old',this.state.boxStack, typeof(this.state.boxStack))
-    this.setState((currentState) => {
+    console.log('old',this.state.count)
+    this.setState((prevState) => {
       return {
-      count: currentState.count + 1,
-      boxStack: currentState.boxStack.concat(this.state.count)
+      count: prevState.count + 1,
+      // boxStack: currentState.boxStack.concat(currentState.count)
     }})
-
+    console.log('new', this.state.count)
+    this.setState((prevState) => {
+      return {
+        boxStack: prevState.boxStack.concat(prevState.count)
+      }
+    })
   }
   removeBox(){
-    if(this.state.count > 0){
     this.state.boxStack.pop()
     this.setState((currentState) => {return {
       count: currentState.count - 1,  
-      // boxStack: currentState.boxStack.filter((boxes) => boxes !== box)
     }})
-  }
   }
   render() {
     const { boxStack, count } = this.state;
-    console.log(boxStack)
+    // console.log(boxStack)
     // const boxes = boxStack.map((box) => {return (<span key={Date.now()}>{box}</span>)})
     return (
       <div className="App">
@@ -52,7 +50,7 @@ class App extends Component {
           <button className="add-btn" onClick={this.addBox}>Add Box</button> &nbsp;
           <button className="remove-btn" onClick={this.removeBox}>Remove Box</button>
         </div>
-        <div className="boxes">{count <= 0 ? <p>No boxes</p> : boxStack}</div>
+        <div className="boxes">{boxStack.length === 0 ? boxStack : 'No Boxes'}</div>
       <p className="count-size" style={{fontSize: `${count}vh`, marginTop: 0}}>{count}</p>
       </div>
     );
