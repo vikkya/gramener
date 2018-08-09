@@ -1,62 +1,57 @@
 import React, { Component } from 'react';
-import './App.css';
+import './box.css';
 
-function BoxMaker(props){
-  return(
-     <div>
-       {props.boxes.map(box => (
-         <span key={Date.now()}>{box}</span>
-       ) )}
-     </div>
-  )
-}
-
-class App extends Component {
+//creating a BoxBuilder Class Component
+class BoxBuilder extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      count: 0,
-      boxStack: []
+    //added count as state property with 0 as default value
+    this.state = { 
+      count: 0
     }
+    //binding addBox and removeBox methods
     this.addBox = this.addBox.bind(this);
     this.removeBox = this.removeBox.bind(this);
   }
 
+    // addBox method updates the count variable by 1 whenever called
   addBox(){
-    // console.log('old',this.state.boxStack, typeof(this.state.boxStack))
     this.setState((currentState) => {
       return {
       count: currentState.count + 1,
-      boxStack: currentState.boxStack.concat(this.state.count)
     }})
-
   }
+  // removeBox method updates the count variable by -1 whenever called
   removeBox(){
     if(this.state.count > 0){
-    this.state.boxStack.pop()
     this.setState((currentState) => {return {
       count: currentState.count - 1,  
-      // boxStack: currentState.boxStack.filter((boxes) => boxes !== box)
     }})
   }
   }
   render() {
-    const { boxStack, count } = this.state;
-    console.log(boxStack)
-    // const boxes = boxStack.map((box) => {return (<span key={Date.now()}>{box}</span>)})
+    //destructuring the state properties
+    const { count } = this.state;
+    //creating a new array boxStack and pushing the span with i
+    const boxStack = [];
+    //loop will run till the count value
+    for(let i=0 ; i < count; i++){
+      boxStack.push(<span key={i}>{i+1}</span>)
+    }
+    //UI with heading and buttons
     return (
-      <div className="App">
+      <div className="container">
         <h1>Box Builder</h1>
         <h4>Start Building</h4>
         <div className="button-inline">
           <button className="add-btn" onClick={this.addBox}>Add Box</button> &nbsp;
           <button className="remove-btn" onClick={this.removeBox}>Remove Box</button>
         </div>
-        <div className="boxes">{count <= 0 ? <p>No boxes</p> : boxStack}</div>
+        <div className="boxes" >{count === 0 ? <p>No boxes</p> : boxStack}</div>
       <p className="count-size" style={{fontSize: `${count}vh`, marginTop: 0}}>{count}</p>
       </div>
     );
   }
 }
 
-export default App;
+export default BoxBuilder;
