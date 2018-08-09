@@ -39,6 +39,7 @@ class BoxBuilder extends Component {
       boxStack.push(<span key={i}>{i+1}</span>)
     }
     //UI with heading and buttons
+    //box stack and counter
     return (
       <div className="container">
         <h1>Box Builder</h1>
