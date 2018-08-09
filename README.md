@@ -2,10 +2,10 @@
 
 ###### How to use this repo
 - `git clone` the [repo](https://github.com/vikkya/gramener.git)
-- cd into the directory
+- cd into the `gramener` directory
 - `npm install`
 - `npm run start`
-- goto localhost:3000
+- goto [localhost:3000](http://localhost:3000/)
 
 ###### About the task
 - Create two buttons Add and Remove Box
