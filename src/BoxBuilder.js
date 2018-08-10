@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import './box.css';
 
+function BoxMaker(props) {
+  return (
+    props.boxes.map((box, i) => {return <span key={i}>{box+1}</span>})
+  )
+}
+
 //creating a BoxBuilder Class Component
 class BoxBuilder extends Component {
   constructor(props){
     super(props);
     //added count as state property with 0 as default value
     this.state = { 
-      count: 0
+      count: 0,
+      boxStack: []
     }
     //binding addBox and removeBox methods
     this.addBox = this.addBox.bind(this);
@@ -19,10 +26,12 @@ class BoxBuilder extends Component {
     this.setState((currentState) => {
       return {
       count: currentState.count + 1,
+      boxStack: currentState.boxStack.concat(this.state.count)
     }})
   }
   // removeBox method updates the count variable by -1 whenever called
   removeBox(){
+    this.state.boxStack.pop();
     if(this.state.count > 0){
     this.setState((currentState) => {return {
       count: currentState.count - 1,  
@@ -31,13 +40,7 @@ class BoxBuilder extends Component {
   }
   render() {
     //destructuring the state properties
-    const { count } = this.state;
-    //creating a new array boxStack and pushing the span with i
-    const boxStack = [];
-    //loop will run till the count value
-    for(let i=0 ; i < count; i++){
-      boxStack.push(<span key={i}>{i+1}</span>)
-    }
+    const { boxStack, count } = this.state;
     //UI with heading and buttons
     //box stack and counter
     return (
@@ -48,7 +51,7 @@ class BoxBuilder extends Component {
           <button className="add-btn" onClick={this.addBox}>Add Box</button> &nbsp;
           <button className="remove-btn" onClick={this.removeBox}>Remove Box</button>
         </div>
-        <div className="boxes" >{count === 0 ? <p>No boxes</p> : boxStack}</div>
+        <div className="boxes" >{count === 0 ? <p>No boxes</p> : <BoxMaker boxes={boxStack}/>}</div>
       <p className="count-size" style={{fontSize: `${count}vh`, marginTop: 0}}>{count}</p>
       </div>
     );
